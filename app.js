@@ -2,10 +2,11 @@
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-analytics.js";
-  import { getAuth ,
-    createUserWithEmailAndPassword
-    
-  } from "https://www.gstatic.com/firebasejs/10.12.4/firebase- firebase/auth";
+  import { getAuth, 
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword 
+  } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,7 +18,7 @@
     projectId: "project-1-48fb2",
     storageBucket: "project-1-48fb2.appspot.com",
     messagingSenderId: "825926836828",
-    appId: "1:825926836828:web:e597218ef08501b5e8bc99"    ,
+    appId: "1:825926836828:web:e597218ef08501b5e8bc99",
     measurementId: "G-SF44HKN9HE"
   };
 
@@ -25,44 +26,51 @@
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
 
-// sign up
+
 
 const auth = getAuth();
 
-document.getElementById('signup').addEventListener('click', () => {
+let signup_button = document.getElementById('signup_button')
+signup_button.addEventListener('click', () => {
+  let email = document.getElementById('Sign_up_e').value
+  console.log(email)
+  let password = document.getElementById('Sign_up_p').value
+  console.log(password)
 
-    createUserWithEmailAndPassword(auth, 'raza@gmail.com', 'raza1234')
+  createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed up 
     const user = userCredential.user;
+    alert("You're Sucessfully Sign Up")
+    console.log(user)
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
 
-    console.log(`===> ${user}`)
+    console.log(`=====> ${errorMessage} `)
+    // ..
+  });
+})
+
+let signin_button = document.getElementById('signin_button')
+signin_button.addEventListener('click', () => {
+  let email = document.getElementById('Sign_in_e').value
+  console.log(email)
+  let password = document.getElementById('Sign_in_p').value
+  console.log(password)
+  signInWithEmailAndPassword(auth, email , password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    alert("You're Successfully Log In")
+    console.log(user)
     // ...
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    // ..
 
-    console.log(`=====> error ${errorMessage}`)
+    console.log(`===> ${errorMessage}`)
   });
 })
-
-
- 
-
-
-
-
-
-
-
-
-
-
-// function signup() {
-//     var email = document.getElementById('email').value
-//     console.log(email)
-// }
-
-// signup()
